@@ -11,11 +11,20 @@ interface CountryGridProps {
 
 export function CountrySearchGrid({ countries }: CountryGridProps) {
     const [query, setQuery] = useState('');
-    const deferred = useDeferredValue(query);
+    const [region, setRegion] = useState('');
+    const deferredQuery = useDeferredValue(query);
+    const deferredRegion = useDeferredValue(region);
+
+    const regions = Array.from(new Set(countries.map(c => c.region))).filter(Boolean).sort();
 
     const filtered = countries.filter((c) => {
-        const q = deferred.toLowerCase();
+        // Filtro por região
+        if (deferredRegion && c.region !== deferredRegion) return false;
+
+        // Filtro por busca de texto
+        const q = deferredQuery.toLowerCase();
         if (!q) return true;
+
         return (
             c.name.toLowerCase().includes(q) ||
             c.nameEN.toLowerCase().includes(q) ||
@@ -28,68 +37,52 @@ export function CountrySearchGrid({ countries }: CountryGridProps) {
 
     return (
         <div>
-            {/* Search input */}
-            <div
-                style={{
-                    position: 'relative',
-                    maxWidth: '480px',
-                    marginBottom: '36px',
-                }}
-            >
-                <Search
-                    size={16}
-                    style={{
-                        position: 'absolute',
-                        left: '16px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: 'var(--text-muted)',
-                        pointerEvents: 'none',
-                    }}
-                />
-                <input
-                    type="text"
-                    placeholder="Buscar por nome, código ou capital…"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    style={{
-                        width: '100%',
-                        height: '48px',
-                        background: 'var(--bg-card)',
-                        border: '1px solid var(--border)',
-                        borderRadius: '12px',
-                        padding: '0 44px 0 44px',
-                        color: 'var(--text-primary)',
-                        fontSize: '14px',
-                        outline: 'none',
-                        transition: 'border-color 0.2s',
-                    }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = 'rgba(79,142,247,0.4)')}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
-                />
-                {query && (
-                    <button
-                        onClick={() => setQuery('')}
+            {/* Search input and Region filter */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-9">
+                <div className="relative flex-1 max-w-[480px]">
+                    <Search
+                        size={16}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-[#4a5568] pointer-events-none"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Buscar por nome, código ou capital…"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-11 text-[#f0f4ff] text-sm outline-none transition-colors duration-200 focus:border-[#4f8ef7]/40"
+                    />
+                    {query && (
+                        <button
+                            onClick={() => setQuery('')}
+                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4a5568] hover:text-[#f0f4ff] transition-colors p-1 flex bg-transparent border-none cursor-pointer"
+                        >
+                            <X size={14} />
+                        </button>
+                    )}
+                </div>
+
+                <div className="w-full sm:w-[200px]">
+                    <select
+                        value={region}
+                        onChange={(e) => setRegion(e.target.value)}
+                        className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-[#f0f4ff] text-sm outline-none transition-colors duration-200 focus:border-[#4f8ef7]/40 appearance-none cursor-pointer"
                         style={{
-                            position: 'absolute',
-                            right: '14px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            background: 'none',
-                            border: 'none',
-                            color: 'var(--text-muted)',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            padding: '4px',
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b96b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'right 16px center',
+                            paddingRight: '40px'
                         }}
                     >
-                        <X size={14} />
-                    </button>
-                )}
+                        <option value="" className="bg-[#0d1117] text-[#f0f4ff]">Todas as Regiões</option>
+                        {regions.map(r => (
+                            <option key={r} value={r} className="bg-[#0d1117] text-[#f0f4ff]">{r}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
             {/* Results count */}
-            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '20px' }}>
+            <p className="text-[13px] text-[#4a5568] mb-5">
                 {filtered.length === countries.length
                     ? `${countries.length} países`
                     : `${filtered.length} de ${countries.length} países`}
@@ -97,18 +90,12 @@ export function CountrySearchGrid({ countries }: CountryGridProps) {
 
             {/* Grid */}
             {filtered.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)' }}>
-                    <p style={{ fontSize: '32px', marginBottom: '12px' }}>🔍</p>
-                    <p style={{ fontSize: '16px' }}>Nenhum país encontrado para &ldquo;{query}&rdquo;</p>
+                <div className="text-center py-20 text-[#4a5568]">
+                    <p className="text-[32px] mb-3">🔍</p>
+                    <p className="text-base">Nenhum país encontrado para &ldquo;{query}&rdquo;</p>
                 </div>
             ) : (
-                <div
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-                        gap: '16px',
-                    }}
-                >
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
                     {filtered.map((c, i) => (
                         <CountryCard key={c.code} country={c} index={i} />
                     ))}

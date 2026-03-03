@@ -35,51 +35,34 @@ export function CountrySelector({ countries, value, onChange, placeholder = 'Sel
     };
 
     return (
-        <div style={{ position: 'relative' }} id={id}>
+        <div className="relative" id={id}>
             {/* Trigger */}
             <button
                 onClick={() => setOpen((o) => !o)}
-                style={{
-                    width: '100%',
-                    height: '52px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '0 16px',
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '12px',
-                    color: value ? 'var(--text-primary)' : 'var(--text-muted)',
-                    fontSize: '15px',
-                    fontWeight: value ? 500 : 400,
-                    cursor: 'pointer',
-                    transition: 'border-color 0.2s',
-                    textAlign: 'left',
-                    fontFamily: 'inherit',
-                }}
+                className={`w-full h-[52px] flex items-center gap-3 px-4 bg-white/5 border border-white/10 rounded-xl text-[15px] font-[inherit] transition-colors duration-200 text-left cursor-pointer ${value ? 'text-[#f0f4ff] font-medium' : 'text-[#8b96b0] font-normal'}`}
             >
                 {value ? (
                     <>
-                        <div style={{ width: '32px', height: '22px', borderRadius: '4px', overflow: 'hidden', position: 'relative', flexShrink: 0, border: '1px solid var(--border)' }}>
-                            <Image src={`https://flagcdn.com/w80/${value.code.toLowerCase()}.png`} alt="" fill style={{ objectFit: 'cover' }} sizes="32px" />
+                        <div className="w-8 h-[22px] rounded-[4px] relative shrink-0 border border-white/10 overflow-hidden">
+                            <Image src={`https://flagcdn.com/w80/${value.code.toLowerCase()}.png`} alt="" fill className="object-cover" sizes="32px" />
                         </div>
                         {value.name}
-                        <span style={{ marginLeft: 'auto', fontSize: '11px', color: 'var(--text-muted)', fontFamily: 'monospace' }}>{value.code}</span>
+                        <span className="ml-auto text-[11px] text-[#4a5568] font-mono">{value.code}</span>
                     </>
                 ) : (
                     <>
-                        <Search size={16} style={{ flexShrink: 0 }} />
+                        <Search size={16} className="shrink-0" />
                         {placeholder}
                     </>
                 )}
-                <ChevronDown size={15} style={{ marginLeft: value ? '0' : 'auto', color: 'var(--text-muted)', flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                <ChevronDown size={15} className={`shrink-0 transition-transform duration-200 text-[#8b96b0] ${value ? 'ml-0' : 'ml-auto'} ${open ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Clear */}
             {value && (
                 <button
                     onClick={(e) => { e.stopPropagation(); onChange(null); }}
-                    style={{ position: 'absolute', right: '40px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', padding: '4px' }}
+                    className="absolute right-10 top-1/2 -translate-y-1/2 bg-transparent border-none text-[#4a5568] cursor-pointer flex p-1 hover:text-[#f0f4ff] transition-colors"
                 >
                     <X size={14} />
                 </button>
@@ -87,77 +70,37 @@ export function CountrySelector({ countries, value, onChange, placeholder = 'Sel
 
             {/* Dropdown */}
             {open && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '56px',
-                        left: 0,
-                        right: 0,
-                        zIndex: 100,
-                        background: '#0d1117',
-                        border: '1px solid var(--border)',
-                        borderRadius: '14px',
-                        boxShadow: '0 16px 48px rgba(0,0,0,0.6)',
-                        overflow: 'hidden',
-                    }}
-                >
+                <div className="absolute top-[56px] left-0 right-0 z-[100] bg-[#0d1117] border border-white/10 rounded-[14px] shadow-[0_16px_48px_rgba(0,0,0,0.6)] overflow-hidden">
                     {/* Search */}
-                    <div style={{ padding: '12px 12px 8px', borderBottom: '1px solid var(--border)' }}>
-                        <div style={{ position: 'relative' }}>
-                            <Search size={13} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                    <div className="p-3 pb-2 border-b border-white/10">
+                        <div className="relative">
+                            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#4a5568]" />
                             <input
                                 autoFocus
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 placeholder="Buscar…"
-                                style={{
-                                    width: '100%',
-                                    height: '36px',
-                                    background: 'rgba(255,255,255,0.05)',
-                                    border: '1px solid var(--border)',
-                                    borderRadius: '8px',
-                                    padding: '0 10px 0 30px',
-                                    color: 'var(--text-primary)',
-                                    fontSize: '13px',
-                                    outline: 'none',
-                                    fontFamily: 'inherit',
-                                }}
+                                className="w-full h-9 bg-white/5 border border-white/10 rounded-lg pl-[30px] pr-2.5 text-[#f0f4ff] text-[13px] outline-none font-[inherit] focus:border-[#4f8ef7]/50 transition-colors"
                             />
                         </div>
                     </div>
 
                     {/* List */}
-                    <div style={{ maxHeight: '260px', overflowY: 'auto' }}>
+                    <div className="max-h-[260px] overflow-y-auto">
                         {filtered.length === 0 ? (
-                            <p style={{ padding: '16px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>Sem resultados</p>
+                            <p className="p-4 text-center text-[#8b96b0] text-[13px]">Sem resultados</p>
                         ) : (
                             filtered.map((c) => (
                                 <button
                                     key={c.code}
                                     onClick={() => select(c)}
-                                    style={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '10px',
-                                        padding: '10px 14px',
-                                        background: value?.code === c.code ? 'rgba(79,142,247,0.1)' : 'transparent',
-                                        border: 'none',
-                                        color: 'var(--text-primary)',
-                                        textAlign: 'left',
-                                        cursor: 'pointer',
-                                        fontSize: '14px',
-                                        fontFamily: 'inherit',
-                                        transition: 'background 0.15s',
-                                    }}
-                                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
-                                    onMouseLeave={(e) => (e.currentTarget.style.background = value?.code === c.code ? 'rgba(79,142,247,0.1)' : 'transparent')}
+                                    className={`w-full flex items-center gap-2.5 py-2.5 px-3.5 border-none text-[#f0f4ff] text-left cursor-pointer text-sm font-[inherit] transition-colors duration-150 ${value?.code === c.code ? 'bg-[#4f8ef7]/10' : 'bg-transparent hover:bg-white/5'}`}
                                 >
-                                    <div style={{ width: '28px', height: '20px', borderRadius: '3px', overflow: 'hidden', position: 'relative', flexShrink: 0, border: '1px solid var(--border)' }}>
-                                        <Image src={`https://flagcdn.com/w80/${c.code.toLowerCase()}.png`} alt="" fill style={{ objectFit: 'cover' }} sizes="28px" />
+                                    <div className="w-7 h-5 rounded-[3px] relative shrink-0 border border-white/10 overflow-hidden">
+                                        <Image src={`https://flagcdn.com/w80/${c.code.toLowerCase()}.png`} alt="" fill className="object-cover" sizes="28px" />
                                     </div>
-                                    <span style={{ flex: 1 }}>{c.name}</span>
-                                    <span style={{ fontFamily: 'monospace', fontSize: '10px', color: 'var(--text-muted)' }}>{c.code}</span>
+                                    <span className="flex-1">{c.name}</span>
+                                    <span className="font-mono text-[10px] text-[#4a5568]">{c.code}</span>
                                 </button>
                             ))
                         )}

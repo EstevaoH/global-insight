@@ -78,6 +78,7 @@ function mapCountry(raw: IbgeCountry): Country {
         capital: raw.governo?.capital?.nome ?? '',
         areaTotalKm2: parseFloat(raw.area?.total?.replace(',', '.') ?? '0'),
         languages: raw.linguas?.map((l) => l.nome) ?? [],
+        languageCodes: raw.linguas?.map((l) => l.id?.['ISO-639-1'])?.filter(Boolean) ?? [],
         currencies: raw['unidades-monetarias']?.map((c) => c.nome) ?? [],
         history: raw.historico,
     };

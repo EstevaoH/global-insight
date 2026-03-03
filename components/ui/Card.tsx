@@ -12,12 +12,8 @@ export function Card({ children, style, className = '', onClick, as: Tag = 'div'
     return (
         <Tag
             onClick={onClick}
-            className={`glass-card ${className}`}
-            style={{
-                padding: '24px',
-                cursor: onClick ? 'pointer' : undefined,
-                ...style,
-            }}
+            className={`glass-card p-6 ${onClick ? 'cursor-pointer' : ''} ${className}`}
+            style={style}
         >
             {children}
         </Tag>

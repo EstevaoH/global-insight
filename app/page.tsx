@@ -95,7 +95,7 @@ export default async function HomePage() {
         >
           {[
             { label: `${sorted.length} Países`, icon: '🌍' },
-            { label: '3 Indicadores', icon: '📊' },
+            { label: '34 Indicadores', icon: '📊' },
             { label: 'Série histórica', icon: '📈' },
             { label: 'Insights automáticos', icon: '🧠' },
           ].map((s) => (

@@ -1,33 +1,17 @@
 export function Spinner({ size = 24 }: { size?: number }) {
     return (
         <div
-            style={{
-                width: size,
-                height: size,
-                borderRadius: '50%',
-                border: `2px solid rgba(79,142,247,0.2)`,
-                borderTopColor: 'var(--accent-blue)',
-                animation: 'spin 0.8s linear infinite',
-                flexShrink: 0,
-            }}
+            className="rounded-full border-2 border-[#4f8ef7]/20 border-t-[#4f8ef7] animate-spin shrink-0"
+            style={{ width: size, height: size }}
         />
     );
 }
 
 export function SpinnerPage() {
     return (
-        <div
-            style={{
-                minHeight: '50vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                gap: '16px',
-            }}
-        >
+        <div className="min-h-[50vh] flex items-center justify-center flex-col gap-4">
             <Spinner size={40} />
-            <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>Carregando...</p>
+            <p className="text-[#8b96b0] text-sm">Carregando...</p>
         </div>
     );
 }

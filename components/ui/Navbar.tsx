@@ -14,85 +14,32 @@ export function Navbar() {
     const pathname = usePathname();
 
     return (
-        <nav
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 50,
-                height: '72px',
-                background: 'rgba(7,9,15,0.85)',
-                backdropFilter: 'blur(16px)',
-                borderBottom: '1px solid var(--border)',
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0 32px',
-            }}
-        >
+        <nav className="fixed top-0 left-0 right-0 z-50 h-[72px] bg-[#07090f]/85 backdrop-blur-md border-b border-white/10 flex items-center px-8">
             {/* Logo */}
             <Link
                 href="/"
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    textDecoration: 'none',
-                    marginRight: '40px',
-                    flexShrink: 0,
-                }}
+                className="flex items-center gap-2.5 no-underline mr-10 shrink-0"
             >
-                <span
-                    style={{
-                        width: '34px',
-                        height: '34px',
-                        borderRadius: '10px',
-                        background: 'var(--gradient-accent)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '18px',
-                    }}
-                >
+                <span className="w-[34px] h-[34px] rounded-[10px] bg-gradient-to-br from-[#4f8ef7] to-[#6366f1] flex items-center justify-center text-lg">
                     🌍
                 </span>
-                <span
-                    style={{
-                        fontWeight: 700,
-                        fontSize: '18px',
-                        background: 'var(--gradient-accent)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        letterSpacing: '-0.03em',
-                    }}
-                >
+                <span className="font-bold text-lg bg-gradient-to-br from-[#4f8ef7] to-[#6366f1] text-transparent bg-clip-text tracking-[-0.03em]">
                     Global Insight
                 </span>
             </Link>
 
             {/* Nav Links */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div className="flex items-center gap-1">
                 {links.map(({ href, label, icon: Icon }) => {
                     const active = pathname === href;
                     return (
                         <Link
                             key={href}
                             href={href}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '7px',
-                                padding: '8px 16px',
-                                borderRadius: '9px',
-                                textDecoration: 'none',
-                                fontSize: '14px',
-                                fontWeight: active ? 600 : 400,
-                                color: active ? 'var(--accent-blue)' : 'var(--text-secondary)',
-                                background: active ? 'rgba(79,142,247,0.1)' : 'transparent',
-                                border: active ? '1px solid rgba(79,142,247,0.2)' : '1px solid transparent',
-                                transition: 'all 0.2s ease',
-                            }}
+                            className={`flex items-center gap-1.5 px-4 py-2 rounded-[9px] no-underline text-sm transition-all duration-200 ${active
+                                    ? 'font-semibold text-[#4f8ef7] bg-[#4f8ef7]/10 border border-[#4f8ef7]/20'
+                                    : 'font-normal text-[#8b96b0] bg-transparent border border-transparent hover:bg-white/5'
+                                }`}
                         >
                             <Icon size={15} />
                             {label}
@@ -102,16 +49,7 @@ export function Navbar() {
             </div>
 
             {/* Right side tag */}
-            <span
-                style={{
-                    marginLeft: 'auto',
-                    fontSize: '11px',
-                    color: 'var(--text-muted)',
-                    fontWeight: 500,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                }}
-            >
+            <span className="ml-auto text-[11px] text-[#4a5568] font-medium tracking-[0.08em] uppercase">
                 Dados IBGE
             </span>
         </nav>

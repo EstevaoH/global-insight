@@ -14,78 +14,48 @@ export function CountryCard({ country, index = 0 }: CountryCardProps) {
 
     return (
         <Link
+            className='no-underline block'
             href={`/pais/${country.code}`}
-            style={{ textDecoration: 'none', display: 'block' }}
         >
             <article
-                className="glass-card fade-in-up"
-                style={{
-                    padding: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '14px',
-                    height: '100%',
-                    animationDelay: `${delay}ms`,
-                    cursor: 'pointer',
-                }}
+                className="glass-card fade-in-up w-full p-5 flex flex-col gap-3.5 h-full cursor-pointer"
+                style={{ animationDelay: `${delay}ms` }}
             >
                 {/* Flag + Code */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-                    <div
-                        style={{
-                            width: '56px',
-                            height: '40px',
-                            borderRadius: '6px',
-                            overflow: 'hidden',
-                            flexShrink: 0,
-                            background: 'var(--bg-secondary)',
-                            border: '1px solid var(--border)',
-                            position: 'relative',
-                        }}
-                    >
+                <div className="flex items-start justify-between gap-3">
+                    <div className="w-14 h-10 rounded-md overflow-hidden shrink-0 bg-[#0d1117] border border-white/10 relative">
                         <Image
                             src={`https://flagcdn.com/w160/${country.code.toLowerCase()}.png`}
                             alt={`Bandeira de ${country.name}`}
                             fill
                             sizes="56px"
-                            style={{ objectFit: 'cover' }}
+                            className="object-cover"
                             onError={() => { }}
                         />
                     </div>
-                    <span
-                        style={{
-                            fontFamily: 'monospace',
-                            fontSize: '11px',
-                            color: 'var(--text-muted)',
-                            background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid var(--border)',
-                            padding: '2px 7px',
-                            borderRadius: '5px',
-                            letterSpacing: '0.08em',
-                        }}
-                    >
+                    <span className="font-mono text-[11px] text-[#4a5568] bg-white/5 border border-white/10 px-[7px] py-[2px] rounded-[5px] tracking-[0.08em]">
                         {country.code}
                     </span>
                 </div>
 
                 {/* Name */}
                 <div>
-                    <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: 0, marginBottom: '2px' }}>
+                    <h3 className="text-base font-semibold text-[#f0f4ff] m-0 mb-0.5">
                         {country.name}
                     </h3>
-                    <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: 0 }}>{country.nameEN}</p>
+                    <p className="text-xs text-[#4a5568] m-0">{country.nameEN}</p>
                 </div>
 
                 {/* Location */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-secondary)', fontSize: '12px' }}>
+                <div className="flex items-center gap-1.5 text-[#8b96b0] text-xs">
                     <MapPin size={12} />
-                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <span className="truncate">
                         {country.capital || '—'}
                     </span>
                 </div>
 
                 {/* Region badge */}
-                <div style={{ marginTop: 'auto', paddingTop: '4px' }}>
+                <div className='mt-auto pt-1 w-full'>
                     <Badge variant={regionVariant(country.region)}>{country.subRegion}</Badge>
                 </div>
             </article>

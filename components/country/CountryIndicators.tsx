@@ -29,7 +29,7 @@ export function CountryIndicators({ countryCode }: CountryIndicatorsProps) {
 
     if (isLoading) {
         return (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '48px 0' }}>
+            <div className="flex justify-center py-12">
                 <Spinner size={32} />
             </div>
         );
@@ -37,7 +37,7 @@ export function CountryIndicators({ countryCode }: CountryIndicatorsProps) {
 
     if (error) {
         return (
-            <p style={{ color: '#f43f5e', fontSize: '14px', textAlign: 'center', padding: '32px 0' }}>
+            <p className="text-rose-500 text-sm text-center py-8">
                 Erro ao carregar indicadores: {error.message}
             </p>
         );
@@ -47,49 +47,22 @@ export function CountryIndicators({ countryCode }: CountryIndicatorsProps) {
 
     return (
         <div>
-            <h2 style={{
-                fontSize: '16px', fontWeight: 600, color: 'var(--text-secondary)',
-                marginBottom: '16px', letterSpacing: '0.03em',
-            }}>
+            <h2 className="text-base font-semibold text-[#8b96b0] mb-4 tracking-[0.03em]">
                 INDICADORES SOCIOECONÔMICOS
             </h2>
 
             {/* Category tabs */}
-            <div
-                style={{
-                    display: 'flex',
-                    gap: '6px',
-                    flexWrap: 'wrap',
-                    marginBottom: '24px',
-                    padding: '12px 16px',
-                    background: 'var(--bg-card)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '14px',
-                }}
-            >
+            <div className="flex gap-1.5 flex-wrap mb-6 px-4 py-3 bg-white/5 border border-white/10 rounded-[14px]">
                 {CATEGORIES.map((cat) => {
                     const active = cat === activeCategory;
                     return (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '7px 14px',
-                                borderRadius: '9px',
-                                border: '1px solid',
-                                borderColor: active ? 'rgba(79,142,247,0.4)' : 'transparent',
-                                background: active ? 'rgba(79,142,247,0.12)' : 'transparent',
-                                color: active ? 'var(--accent-blue)' : 'var(--text-secondary)',
-                                fontSize: '13px',
-                                fontWeight: active ? 600 : 400,
-                                cursor: 'pointer',
-                                fontFamily: 'inherit',
-                                transition: 'all 0.2s',
-                                whiteSpace: 'nowrap',
-                            }}
+                            className={`flex items-center gap-1.5 px-3.5 py-[7px] rounded-[9px] border text-[13px] whitespace-nowrap transition-all duration-200 ${active
+                                    ? 'border-[#4f8ef7]/40 bg-[#4f8ef7]/12 text-[#4f8ef7] font-semibold'
+                                    : 'border-transparent bg-transparent text-[#8b96b0] font-normal hover:bg-white/5'
+                                }`}
                         >
                             <span>{CATEGORY_ICONS[cat]}</span>
                             {cat}
@@ -99,29 +72,24 @@ export function CountryIndicators({ countryCode }: CountryIndicatorsProps) {
             </div>
 
             {/* Charts for active category */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="flex flex-col gap-4">
                 {categoryMetas.map((meta) => {
                     const indicatorSeries = series.filter((s) => s.indicatorId === meta.id);
                     return (
                         <div
                             key={meta.id}
-                            style={{
-                                background: 'var(--bg-card)',
-                                border: '1px solid var(--border)',
-                                borderRadius: '14px',
-                                padding: '20px 24px',
-                            }}
+                            className="bg-white/5 border border-white/10 rounded-[14px] px-6 py-5"
                         >
-                            <div style={{ marginBottom: '12px' }}>
-                                <h3 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 3px' }}>
+                            <div className="mb-3">
+                                <h3 className="text-sm font-semibold text-[#f0f4ff] m-0 mb-[3px]">
                                     {meta.label}
                                 </h3>
-                                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0 }}>
+                                <p className="text-[11px] text-[#4a5568] m-0">
                                     {meta.description} · Unidade: {meta.unit}
                                 </p>
                             </div>
                             {indicatorSeries.length === 0 || indicatorSeries[0]?.data.length === 0 ? (
-                                <p style={{ fontSize: '13px', color: 'var(--text-muted)', padding: '12px 0' }}>
+                                <p className="text-[13px] text-[#4a5568] py-3">
                                     Sem dados disponíveis para este indicador.
                                 </p>
                             ) : (

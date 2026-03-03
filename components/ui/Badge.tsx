@@ -5,32 +5,21 @@ interface BadgeProps {
     variant?: 'default' | 'blue' | 'emerald' | 'amber' | 'purple' | 'cyan';
 }
 
-const colors = {
-    default: { bg: 'rgba(99,102,241,0.12)', text: '#818cf8', border: 'rgba(99,102,241,0.25)' },
-    blue: { bg: 'rgba(79,142,247,0.12)', text: '#4f8ef7', border: 'rgba(79,142,247,0.25)' },
-    emerald: { bg: 'rgba(16,185,129,0.12)', text: '#10b981', border: 'rgba(16,185,129,0.25)' },
-    amber: { bg: 'rgba(245,158,11,0.12)', text: '#f59e0b', border: 'rgba(245,158,11,0.25)' },
-    purple: { bg: 'rgba(168,85,247,0.12)', text: '#a855f7', border: 'rgba(168,85,247,0.25)' },
-    cyan: { bg: 'rgba(34,211,238,0.12)', text: '#22d3ee', border: 'rgba(34,211,238,0.25)' },
+const colorClasses = {
+    default: 'bg-[#6366f1]/15 text-[#818cf8] border-[#6366f1]/30',
+    blue: 'bg-[#4f8ef7]/15 text-[#4f8ef7] border-[#4f8ef7]/30',
+    emerald: 'bg-[#10b981]/15 text-[#10b981] border-[#10b981]/30',
+    amber: 'bg-[#f59e0b]/15 text-[#f59e0b] border-[#f59e0b]/30',
+    purple: 'bg-[#a855f7]/15 text-[#a855f7] border-[#a855f7]/30',
+    cyan: 'bg-[#22d3ee]/15 text-[#22d3ee] border-[#22d3ee]/30',
 };
 
 export function Badge({ children, variant = 'default' }: BadgeProps) {
-    const c = colors[variant];
+    const classes = colorClasses[variant];
     return (
         <span
-            style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: '3px 10px',
-                borderRadius: '99px',
-                fontSize: '12px',
-                fontWeight: 500,
-                background: c.bg,
-                color: c.text,
-                border: `1px solid ${c.border}`,
-                whiteSpace: 'nowrap',
-                letterSpacing: '0.02em',
-            }}
+            className={`flex flex-wrap items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-medium border tracking-wide ${classes}`}
+            title={typeof children === 'string' ? children : undefined}
         >
             {children}
         </span>

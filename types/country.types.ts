@@ -99,6 +99,8 @@ export interface Country {
   areaTotalKm2: number;
   /** Idiomas oficiais */
   languages: string[];
+  /** Códigos ISO-639-1 dos idiomas oficiais */
+  languageCodes?: string[];
   /** Moedas */
   currencies: string[];
   /** Histórico descritivo */

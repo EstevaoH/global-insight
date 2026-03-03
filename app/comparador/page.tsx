@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { Suspense, useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ArrowLeftRight, RefreshCw } from 'lucide-react';
 import { Country } from '@/types/country.types';
@@ -15,7 +15,7 @@ import { generateComparisonInsight, getLatestDataPoint } from '@/services/indica
 
 export const dynamic = 'force-dynamic';
 
-export default function ComparadorPage() {
+function ComparadorContent() {
     const searchParams = useSearchParams();
     const [countries, setCountries] = useState<Country[]>([]);
     const [loading, setLoading] = useState(true);
@@ -182,5 +182,13 @@ export default function ComparadorPage() {
                 )}
             </section>
         </div>
+    );
+}
+
+export default function ComparadorPage() {
+    return (
+        <Suspense fallback={<SpinnerPage />}>
+            <ComparadorContent />
+        </Suspense>
     );
 }
